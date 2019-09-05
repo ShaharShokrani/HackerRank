@@ -381,76 +381,9 @@ namespace UnitTestProject1
             return result;
         }
 
-        //long SubstrCount(int n, string s)
-        //{
-        //    long result = 0;
-        //    HashSet<string> keys = new HashSet<string>();
-
-        //    int sameCount = 0;
-        //    for (int i = 1; i < s.Length; i++)
-        //    {
-        //        char previous = s[i - 1];
-        //        char current = s[i];
-
-        //        if (current == previous)
-        //        {
-        //            sameCount++;
-        //        }
-        //        else if (current != previous)
-        //        {
-        //            int leftIndex = i - (sameCount + 1);
-        //            string left = s.Substring(leftIndex, sameCount + 1);
-
-        //            //Determine if same chars: aaaaaa
-        //            if (sameCount >= 1 && !keys.Contains(left))
-        //            {
-        //                result += NCR(sameCount + 1, 2);
-        //            }
-
-        //            if (i + 1 + sameCount < s.Length)
-        //            {
-        //                int rightIndex = i + 1;
-        //                string right = s.Substring(rightIndex, sameCount + 1);
-
-        //                if (left == right)
-        //                {
-        //                    string leftCurrentRight = left + current + right;
-        //                    if (!keys.Contains(leftCurrentRight))
-        //                    {
-        //                        result++;
-        //                    }
-        //                }
-        //            }
-
-        //            sameCount = 0;
-        //        }
-        //    }
-
-        //    //Determine if same chars: aaaaaa
-        //    if (sameCount >= 1)
-        //    {
-        //        int leftIndex = s.Length - (sameCount + 1);
-        //        string left = s.Substring(leftIndex, sameCount + 1);
-
-        //        if (!keys.Contains(left))
-        //            result += NCR(sameCount + 1, 2);
-        //    }
-
-        //    return result;
-        //}
-
-        //private long NCR(int n, int r)
-        //{
-        //    return Factorial(n) / (Factorial(r) * Factorial(n - r));
-        //}
-
-        //private long Factorial(int i)
-        //{
-        //    if (i <= 1)
-        //        return 1;
-        //    return i * Factorial(i - 1);
-        //}
-
+        /// <summary>
+        /// https://www.hackerrank.com/challenges/common-child/problem
+        /// </summary>
         [TestMethod]
         public void CommonChildTest()
         {
