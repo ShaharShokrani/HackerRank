@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UnitTestProject1
+namespace HackerRankExercises
 {
     [TestClass]
     public class Strings
