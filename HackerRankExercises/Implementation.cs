@@ -205,6 +205,33 @@ namespace HackerRankExercises
 
             return result;
         }
+
+        [TestMethod]
+        public void ShuffleDeckOfCardsTest()
+        {
+            int[] cards1 = { 2, 1, 3, 4, 5 };
+            ShuffleDeckOfCards(cards1);
+        }
+
+        private int[] ShuffleDeckOfCards(int[] cards)
+        {
+            Random random = new Random();
+
+            for (int i = 0; i < cards.Length; i++)
+            {
+                int index = (int)random.Next(cards.Length - i) + i;
+                Swap(ref cards[index], ref cards[i]);
+            }
+
+            return cards;
+        }
+
+        public static void Swap(ref int v1, ref int v2)
+        {
+            int temp = v1;
+            v1 = v2;
+            v2 = temp;
+        }
     }
 
     public class LRUCache
