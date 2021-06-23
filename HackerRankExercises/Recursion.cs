@@ -23,7 +23,7 @@ namespace HackerRankExercises
                 return 0;
             else if (n == 1)
                 return 1;
-            else            
+            else
                 return Fibonacci(n - 1) + Fibonacci(n - 2);
         }
 
@@ -63,7 +63,7 @@ namespace HackerRankExercises
         }
 
         int PowerSum(int x, int N)
-        {            
+        {
             return HelpPowerSum(1, x, N);
         }
 
@@ -72,7 +72,7 @@ namespace HackerRankExercises
             int power = (int)Math.Pow(index, N);
 
             if (power < left)
-                return HelpPowerSum(index + 1, left - power, N) + 
+                return HelpPowerSum(index + 1, left - power, N) +
                     HelpPowerSum(index + 1, left, N);
             else if (power == left)
                 return 1;
@@ -102,26 +102,146 @@ namespace HackerRankExercises
 
         int SuperDigit(string n, int k)
         {
-            var sb = new System.Text.StringBuilder();            
-            for (int i = 0; i < k; i++)
-            {
-                sb.Append(n);
-            }
-
-            return HelpSuperDigit(sb.ToString());
+            return (int)RecursiveSuperDigit((k * HelpSuperDigit(n)).ToString());
         }
 
-        int HelpSuperDigit(string n)
+        long RecursiveSuperDigit(string n)
         {
             if (n.Length == 1)
                 return int.Parse(n);
 
-            int result = 0;
+            long super = HelpSuperDigit(n);
+
+            return RecursiveSuperDigit(super.ToString());
+        }
+        long HelpSuperDigit(string n)
+        {
+            long result = 0;
             for (int i = 0; i < n.Length; i++)
             {
                 result += n[i] - '0';
             }
-            return HelpSuperDigit(result.ToString());
+            return result;
         }
+
+        /// <summary>
+        /// https://www.hackerrank.com/challenges/ctci-recursive-staircase/problem
+        /// </summary>
+        [TestMethod]
+        public void StepPermsTest()
+        {
+            int n1 = 5;
+            Assert.AreEqual(13, stepPerms(n1), "1");
+
+            int n2 = 1;
+            Assert.AreEqual(1, stepPerms(n2), "2");
+
+            int n3 = 3;
+            Assert.AreEqual(4, stepPerms(n3), "3");
+
+            int n4 = 7;
+            Assert.AreEqual(44, stepPerms(n4), "4");
+        }
+        Dictionary<int, int> _dict = new Dictionary<int, int>();
+        int stepPerms(int n)
+        {
+            if (n < 0)
+                return 0;
+            if (n == 0)
+                return 1;
+            int step1, step2, step3;
+
+            if (_dict.TryGetValue(n - 1, out int value1))
+                step1 = value1;
+            else
+            {
+                step1 = stepPerms(n - 1);
+                _dict.Add(n - 1, step1);
+            }
+
+            if (_dict.TryGetValue(n - 2, out int value2))
+                step2 = value2;
+            else
+            {
+                step2 = stepPerms(n - 2);
+                _dict.Add(n - 2, step2);
+            }
+
+            if (_dict.TryGetValue(n - 3, out int value3))
+                step3 = value3;
+            else
+            {
+                step3 = stepPerms(n - 3);
+                _dict.Add(n - 3, step3);
+            }
+
+            return step1 + step2 + step3;
+        }
+
+        /// <summary>
+        /// https://www.hackerrank.com/challenges/crossword-puzzle/problem
+        /// </summary>
+        [TestMethod]
+        public void CrosswordPuzzleTest()
+        {
+            string[] crossword1 = new string[10]
+            {
+                "+-++++++++",
+                "+-++++++++",
+                "+-------++",
+                "+-++++++++",
+                "+-++++++++",
+                "+------+++",
+                "+-+++-++++",
+                "+++++-++++",
+                "+++++-++++",
+                "++++++++++"
+            };
+            string words1 = "AGRA;NORWAY;ENGLAND;GWALIOR";
+
+            string[] output1 = new string[10]
+            {
+                "+E++++++++",
+                "+N++++++++",
+                "+GWALIOR++",
+                "+L++++++++",
+                "+A++++++++",
+                "+NORWAY+++",
+                "+D+++G++++",
+                "+++++R++++",
+                "+++++A++++",
+                "++++++++++"
+            };
+            CollectionAssert.AreEqual(output1, crosswordPuzzle(crossword1, words1), "1");
+        }
+        string[] crosswordPuzzle(string[] crossword, string words)
+        {
+            string[] result = new string[10];
+
+            for (int i = 0; i < crossword.Length; i++)
+            {
+                foreach (char c in crossword[i])
+                {
+                }
+            }
+
+            return result;
+        }
+
+
+        ///// <summary>
+        ///// https://www.hackerrank.com/challenges/stone-division-2/problem
+        ///// </summary>
+        //public void StoneDivisionTest()
+        //{
+        //    long n1;
+        //    long[] s1;
+
+
+        //}
+        //long stoneDivision(long n, long[] s)
+        //{
+
+        //}
     }
 }

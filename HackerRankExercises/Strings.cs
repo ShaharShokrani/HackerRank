@@ -1,7 +1,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace HackerRankExercises
 {
@@ -302,23 +309,9 @@ namespace HackerRankExercises
         [TestMethod]
         public void SubstrCountTest()
         {
-            int n1 = 5;
-            string s1 = "asasd";
-            Assert.AreEqual(7, SubstrCount(n1, s1), "1");
+            //var s = GetResponse("epaga", null).Result;
 
-            int n2 = 5;
-            string s2 = "abcbaba";
-            Assert.AreEqual(10, SubstrCount(n2, s2), "2");
-
-            int n3 = 5;
-            string s3 = "aaaab";
-            Assert.AreEqual(11, SubstrCount(n3, s3), "3");
-
-            int n4 = 5;
-            string s4 = "aaaa"; //[0123,012,013,123,01,02,03,0,1,2,3]
-                                //[aaaa,1],[aaa,3],[aa,2],[a,4]
-
-            Assert.AreEqual(10, SubstrCount(n4, s4), "4");
+            getArticleTitles();
         }
 
         private class CharAndCount
@@ -327,7 +320,85 @@ namespace HackerRankExercises
             public long MyCount { get; set; }
         }
 
-        long SubstrCount(int n, string s)
+        /*
+ * Complete the 'getArticleTitles' function below.
+ *
+ * The function is expected to return a STRING_ARRAY.
+ * The function accepts STRING author as parameter.
+ */
+
+        private static async System.Threading.Tasks.Task<ResponseHackerRank> GetResponse(string author, long? page)
+        {            
+            HttpClient _httpClient = new HttpClient();
+
+            string url = $"https://jsonmock.hackerrank.com/api/articles?author={author}";
+            if (page.HasValue)
+                url = url + $"&page={page.Value}";
+
+            var request = new HttpRequestMessage(
+                HttpMethod.Get,
+                url);
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            using (var response = await _httpClient.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();                
+                var stream = await response.Content.ReadAsStreamAsync();
+
+                using (var streamReader = new StreamReader(stream))
+                {
+                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
+                    {
+                        var jsonSerializer = new Newtonsoft.Json.JsonSerializer();
+                        var responseHackerRank = jsonSerializer.Deserialize<ResponseHackerRank>(jsonTextReader);
+
+                        return responseHackerRank;
+                    }
+                }
+            }
+        }
+
+        public class ResponseHackerRank
+        {
+            public int page { get; set; }
+            public int per_page { get; set; }
+            public long total { get; set; }
+            public long total_pages { get; set; }
+            public List<Article> data { get; set; }
+        }
+        public class Article
+        {
+            public string title { get; set; }
+            public string url { get; set; }
+            public string author { get; set; }
+            public long num_comments { get; set; }
+            public long? story_id { get; set; }
+            public string story_title { get; set; }
+            public string story_url { get; set; }
+            public long? parent_id { get; set; }
+            public long created_at { get; set; }
+        }
+
+        public static void getArticleTitles()
+        {
+            try
+            {
+                badMethod();
+                Console.WriteLine("A");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("B");
+            }
+            finally
+            {
+                Console.WriteLine("C");
+            }
+            Console.WriteLine("D");
+        }
+        public static void badMethod() { throw new Exception(); }
+
+    long SubstrCount(int n, string s)
         {
             long result = 0;
             int sameCount = 0;
